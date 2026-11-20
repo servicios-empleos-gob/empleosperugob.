@@ -24,13 +24,13 @@
     $('previous').disabled = page === 1;
     $('next').disabled = page === 3;
   }
-  function route() {
+    function route() {
     const viewing = isViewerWindow;
     $('search-screen').hidden = viewing;
     $('viewer-screen').hidden = !viewing;
-    if (viewing) showPage(1);
     document.title = 'Ministerio de Trabajo - Certificado Único Laboral';
-    if (!viewing && location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
+    if (viewing) showPage(1);
+    else if (location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
   }
   form.addEventListener('submit', event => {
     event.preventDefault();

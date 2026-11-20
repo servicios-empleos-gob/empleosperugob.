@@ -3,6 +3,7 @@
   const $ = id => document.getElementById(id);
   const expected = { certificate: '20264445411', document: '25832167', ruc: '20601832390' };
   const form = $('search-form');
+  let page = 1;
   const params = new URLSearchParams(location.search);
   const isViewerWindow = params.get('vista') === 'certificado';
   if (params.has('cul')) $('certificate').value = params.get('cul');
@@ -14,10 +15,20 @@
     $('form-message').hidden = true;
     for (const id of [...Object.keys(expected), 'document-type']) $(id).removeAttribute('aria-invalid');
   }
+  function showPage(nextPage) {
+    page = Math.max(1, Math.min(3, nextPage));
+    $('pdf-error').hidden = true;
+    $('pdf-page').src = `assets/pdf/pagina-${page}.png`;
+    $('pdf-page').alt = `Página ${page} de 3 del certificado adjunto`;
+    $('page-counter').textContent = `Pág.: ${page} / 3`;
+    $('previous').disabled = page === 1;
+    $('next').disabled = page === 3;
+  }
   function route() {
     const viewing = isViewerWindow;
     $('search-screen').hidden = viewing;
     $('viewer-screen').hidden = !viewing;
+    if (viewing) showPage(1);
     document.title = 'Consulta CUL — Demostración no oficial';
     if (!viewing && location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
   }
@@ -58,6 +69,9 @@
     $('document-type').value = 'DNI';
     $('certificate').focus();
   });
+  $('previous').addEventListener('click', () => showPage(page - 1));
+  $('next').addEventListener('click', () => showPage(page + 1));
+  $('pdf-page').addEventListener('error', () => { $('pdf-error').hidden = false; });
   document.querySelectorAll('[data-home]').forEach(link => link.addEventListener('click', event => {
     if (isViewerWindow) return;
     event.preventDefault();

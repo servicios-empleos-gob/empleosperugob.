@@ -79,7 +79,8 @@
     route();
     window.scrollTo(0, 0);
   }));
-  $('legal-button').addEventListener('click', () => $('legal-dialog').showModal());
+  const legalBtn = $('legal-button');
+  if (legalBtn) legalBtn.addEventListener('click', () => $('legal-dialog').showModal());
   $('legal-dialog').addEventListener('click', event => { if (event.target === $('legal-dialog')) $('legal-dialog').close(); });
   window.addEventListener('hashchange', route);
   window.addEventListener('popstate', route);

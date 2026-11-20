@@ -1,41 +1,72 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  const expected = { document: '25832167', ruc: '20601832390' };
   const form = $('search-form');
-  const fields = ['document', 'ruc'];
-  function resetResults() {
+  const params = new URLSearchParams(location.search);
+  const isViewerWindow = params.get('vista') === 'certificado';
+  if (params.has('numdoc')) $('document').value = params.get('numdoc');
+
+  function hideResults() {
     $('results').hidden = true;
-    $('form-message').hidden = true;
     $('search-screen').classList.remove('has-results');
-    [...fields, 'document-type'].forEach(id => $(id).removeAttribute('aria-invalid'));
+    $('form-message').hidden = true;
+    for (const id of [...Object.keys(expected), 'document-type']) $(id).removeAttribute('aria-invalid');
   }
-  function error(id, message) {
-    $(id).setAttribute('aria-invalid', 'true');
-    $('form-message').textContent = message;
-    $('form-message').hidden = false;
-    $(id).focus();
+  function route() {
+    const viewing = isViewerWindow;
+    $('search-screen').hidden = viewing;
+    $('viewer-screen').hidden = !viewing;
+    document.title = 'Consulta CUL — Demostración no oficial';
+    if (!viewing && location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
   }
   form.addEventListener('submit', event => {
     event.preventDefault();
-    resetResults();
-    fields.forEach(id => { $(id).value = $(id).value.trim(); });
-    if (!/^\d{8}$/.test($('document').value)) return error('document', 'Ingresa un DNI de 8 d�gitos.');
-    if (!/^\d{11}$/.test($('ruc').value)) return error('ruc', 'Ingresa un RUC de 11 d�gitos.');
-    if ($('ruc').value !== '20601832390') return error('ruc', 'Usa el RUC de prueba indicado.');
-    if ($('document-type').value !== 'DNI') return error('document-type', 'Esta ficha corresponde a un DNI.');
-    if ($('document').value !== '25832167') return error('document', 'No se encontraron resultados.');
+    hideResults();
+    let invalid = null;
+    let message = '';
+    for (const id of Object.keys(expected)) {
+      $(id).value = $(id).value.trim();
+      if (!$(id).value) { invalid = id; message = 'Completa el DNI y el RUC.'; break; }
+      if (!/^\d+$/.test($(id).value)) { invalid = id; message = 'Ingresa únicamente números.'; break; }
+    }
+    if (!invalid && $('ruc').value !== expected.ruc) {
+      invalid = 'ruc';
+      message = 'El RUC ingresado no está habilitado para esta demostración.';
+    }
+    if (!invalid && ($('document').value !== expected.document || $('document-type').value !== 'DNI')) {
+      invalid = $('document-type').value !== 'DNI' ? 'document-type' : 'document';
+      message = 'No se encontraron resultados para los datos ingresados.';
+    }
+    if (invalid) {
+      $(invalid).setAttribute('aria-invalid', 'true');
+      $('form-message').textContent = message;
+      $('form-message').hidden = false;
+      $(invalid).focus();
+      return;
+    }
     $('results').hidden = false;
     $('search-screen').classList.add('has-results');
-    $('results-title').focus({preventScroll: true});
+    $('results-title').focus({ preventScroll: true });
   });
-  form.addEventListener('input', resetResults);
-  form.addEventListener('change', resetResults);
+  form.addEventListener('input', hideResults);
+  form.addEventListener('change', hideResults);
   $('clear').addEventListener('click', () => {
-    resetResults();
-    fields.forEach(id => { $(id).value = ''; });
+    hideResults();
+    for (const id of Object.keys(expected)) $(id).value = '';
     $('document-type').value = 'DNI';
     $('document').focus();
   });
-  $('view-profile').addEventListener('click', () => $('profile-dialog').showModal());
+  document.querySelectorAll('[data-home]').forEach(link => link.addEventListener('click', event => {
+    if (isViewerWindow) return;
+    event.preventDefault();
+    history.pushState(null, '', location.pathname + location.search);
+    route();
+    window.scrollTo(0, 0);
+  }));
+  $('legal-button').addEventListener('click', () => $('legal-dialog').showModal());
+  $('legal-dialog').addEventListener('click', event => { if (event.target === $('legal-dialog')) $('legal-dialog').close(); });
+  window.addEventListener('hashchange', route);
+  window.addEventListener('popstate', route);
+  route();
 })();
-

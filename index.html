@@ -1,14 +1,107 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Consulta empresarial | Elmer Solis Guerrero</title><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script></head>
-<body><header class="government-header"><div class="brand"><strong>Consulta empresarial</strong><span class="ministry-name">ELMER SOLIS GUERRERO</span></div><a class="home-link" href="index.html">Inicio</a></header>
-<aside class="demo-notice"><strong>DEMOSTRACI�N � NO OFICIAL.</strong> Portal independiente. No consulta registros del Estado ni acredita autenticidad o vigencia.</aside>
-<main><section class="container search-screen" id="search-screen"><h1>Consulta empresarial</h1><p>Consulta los datos registrados de la persona.</p>
-<form id="search-form" novalidate><button id="clear" type="button" class="clear-button">Limpiar</button>
-<label for="document-type">Tipo de documento</label><select id="document-type"><option>DNI</option><option>CE</option></select>
-<label for="document">N�mero de documento</label><input id="document" inputmode="numeric" maxlength="12" value="25832167" autocomplete="off" required>
-<label for="ruc">RUC empresa consultante</label><input id="ruc" inputmode="numeric" maxlength="11" placeholder="RUC de 11 d�gitos" autocomplete="off" aria-describedby="ruc-help" required>
-<small id="ruc-help">RUC de prueba: 20601832390. No se env�an datos ni se valida acceso empresarial.</small><button class="search-button" type="submit">Buscar</button><p id="form-message" role="alert" hidden></p></form>
-<section id="results" class="results" aria-labelledby="results-title" hidden><h2 id="results-title" tabindex="-1">Resultado de b�squeda</h2><div class="table-scroll"><table><thead><tr><th>Documento</th><th>Apellidos y nombres</th><th>Certificado</th><th>Acciones</th></tr></thead><tbody><tr><td>DNI 25832167</td><td>SOLIS GUERRERO ELMER FRANCISCO</td><td>Pendiente de adjuntar</td><td><button id="view-profile" class="view-button" type="button">Ver ficha</button></td></tr></tbody></table></div></section></section></main>
-<footer><div class="legal-band">Consulta empresarial � Demostraci�n independiente</div></footer>
-<dialog id="profile-dialog" aria-labelledby="profile-title"><h2 id="profile-title">Ficha personal</h2><dl><dt>Nombres</dt><dd>ELMER FRANCISCO</dd><dt>Apellidos</dt><dd>SOLIS GUERRERO</dd><dt>DNI</dt><dd>25832167</dd></dl><p><strong>Certificado pendiente de adjuntar.</strong> No se ha registrado n�mero, fecha de emisi�n o vigencia.</p><p>Datos proporcionados para esta demostraci�n; sin validaci�n oficial.</p><form method="dialog"><button>Cerrar</button></form></dialog></body></html>
+<html lang="es">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Demostración no oficial de consulta de Certificado Único Laboral.">
+  <title>Consulta CUL — Demostración no oficial</title>
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header class="government-header">
+    <div class="brand"><img src="assets/gob-pe.png" alt="gob.pe, referencia visual"><span
+        class="ministry-name">Ministerio de Trabajo<br>y Promoción del Empleo</span></div>
+    <div class="header-actions"><span class="local-label">Demostración · No oficial</span><a href="index.html" class="home-link" data-home>Inicio</a></div>
+  </header>
+  <nav class="breadcrumbs" aria-label="Ruta de navegación">
+    <div class="container">
+      <a href="index.html" aria-label="Inicio" class="home-icon" data-home><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m2 11 10-9 10 9M5 9v12h5v-7h4v7h5V9" />
+        </svg></a><span>&gt;</span><a href="index.html" data-home>Ministerio de Trabajo y Promoción del
+        Empleo</a><span>&gt;</span><a href="index.html" data-home>Certificado Único Laboral</a>
+    </div>
+  </nav>
+  <main>
+    <section id="search-screen" class="container search-screen">
+      <h1>Verifica el Certificado Único Laboral</h1>
+      <form id="search-form" novalidate>
+        <button type="button" id="clear" class="clear-button">Limpiar</button>
+        <label class="sr-only" for="certificate">Número de certificado</label>
+        <input id="certificate" name="cul" inputmode="numeric" maxlength="11" placeholder="N° de certificado pendiente"
+          value="" disabled aria-describedby="certificate-note" autocomplete="off">
+        <label class="sr-only" for="document-type">Tipo de documento</label>
+        <select id="document-type" name="tipo">
+          <option value="DNI">DNI</option>
+          <option value="CE">CE</option>
+        </select>
+        <label class="sr-only" for="document">Número de documento</label>
+        <input id="document" name="numdoc" inputmode="numeric" maxlength="12" placeholder="N° de documento"
+          value="25832167" required autocomplete="off">
+        <label class="sr-only" for="ruc">RUC empresa consultante</label>
+        <input id="ruc" name="ruc" inputmode="numeric" maxlength="11" placeholder="RUC empresa consultante" required
+          autocomplete="off" aria-describedby="form-message">
+        <button type="submit" class="search-button">Buscar</button>
+        <p id="form-message" role="alert" hidden></p>
+      </form>
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <h2 id="results-title" tabindex="-1">Resultado de búsqueda</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>N° de certificado</th>
+                <th>Fecha de emisión</th>
+                <th>Apellidos y nombres</th>
+                <th>Estado</th>
+                <th><span class="sr-only">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pendiente</td>
+                <td>—</td>
+                <td>SOLIS GUERRERO ELMER FRANCISCO</td>
+                <td>Sin verificar <span class="reference-label">Documento pendiente</span></td>
+                <td><a id="view-certificate" class="view-button" href="?vista=certificado" target="_blank"
+                    rel="noopener noreferrer" aria-label="Ver certificado en una ventana nueva"><svg viewBox="0 0 24 16"
+                      aria-hidden="true">
+                      <path d="M1 8s4-7 11-7 11 7 11 7-4 7-11 7S1 8 1 8Z" />
+                      <circle cx="12" cy="8" r="4" />
+                    </svg> Ver</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+    <section id="viewer-screen" class="container viewer-screen" hidden>
+      <h1>Certificado Único Laboral</h1>
+      <div class="pdf-viewer">
+        <div class="pager" aria-label="Navegación del documento"><button id="previous" type="button" disabled>‹ Anterior</button><button id="next" type="button" disabled>Siguiente ›</button><span id="page-counter" role="status">Pág.: 0 / 0</span></div>
+        <p id="certificate-note"><strong>Certificado pendiente de adjuntar</strong></p>
+        <p>SOLIS GUERRERO ELMER FRANCISCO · DNI 25832167</p>
+        <p>No se ha proporcionado un certificado para esta persona. No se acredita vigencia ni validación oficial.</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="legal-band"><button id="legal-button" type="button"><strong>Ley y Reglamento</strong> del Certificado
+        Único Laboral</button></div>
+    <div class="footer-brand container"><img src="assets/ministerio.png"
+        alt="Perú — Ministerio de Trabajo y Promoción del Empleo"></div>
+  </footer>
+  <dialog id="legal-dialog">
+    <h2>Ley y Reglamento del Certificado Único Laboral</h2>
+    <p>Esta es una demostración no oficial. La información oficial está disponible en el portal del Ministerio de Trabajo y
+      Promoción del Empleo.</p><a href="https://www.empleosperu.gob.pe/CertificadoUnicoLaboral/" target="_blank"
+      rel="noopener noreferrer">Visitar el portal oficial ↗</a>
+    <form method="dialog"><button>Cerrar</button></form>
+  </dialog>
+</body>
+
+</html>

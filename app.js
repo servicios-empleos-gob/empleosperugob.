@@ -29,7 +29,7 @@
     $('search-screen').hidden = viewing;
     $('viewer-screen').hidden = !viewing;
     if (viewing) showPage(1);
-    document.title = 'Consulta CUL — Demostración no oficial';
+    document.title = 'Ministerio de Trabajo - Certificado Único Laboral';
     if (!viewing && location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
   }
   form.addEventListener('submit', event => {

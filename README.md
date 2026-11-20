@@ -6,7 +6,8 @@ Copia independiente con el diseño original de edsonvelasquez557-creator/empleos
 - Apellidos: SOLIS GUERRERO
 - DNI: 25832167
 - RUC de demostración: 20601832390
-- Certificado, emisión y vigencia: pendientes. No se utiliza el PDF de otra persona.
+- Número de certificado proporcionado: 20264445411.
+- PDF solicitado: certi oño.pdf, pendiente de recibir. Fecha de emisión y vigencia sin verificar.
 
 Demostración no oficial, sin conexión a registros del Estado. El RUC controla únicamente el flujo visual; no autentica usuarios.
 

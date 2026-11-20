@@ -1,10 +1,11 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const expected = { document: '25832167', ruc: '20601832390' };
+  const expected = { certificate: '20264445411', document: '25832167', ruc: '20601832390' };
   const form = $('search-form');
   const params = new URLSearchParams(location.search);
   const isViewerWindow = params.get('vista') === 'certificado';
+  if (params.has('cul')) $('certificate').value = params.get('cul');
   if (params.has('numdoc')) $('document').value = params.get('numdoc');
 
   function hideResults() {
@@ -27,15 +28,15 @@
     let message = '';
     for (const id of Object.keys(expected)) {
       $(id).value = $(id).value.trim();
-      if (!$(id).value) { invalid = id; message = 'Completa el DNI y el RUC.'; break; }
+      if (!$(id).value) { invalid = id; message = 'Completa el número de certificado, el DNI y el RUC.'; break; }
       if (!/^\d+$/.test($(id).value)) { invalid = id; message = 'Ingresa únicamente números.'; break; }
     }
     if (!invalid && $('ruc').value !== expected.ruc) {
       invalid = 'ruc';
       message = 'El RUC ingresado no está habilitado para esta demostración.';
     }
-    if (!invalid && ($('document').value !== expected.document || $('document-type').value !== 'DNI')) {
-      invalid = $('document-type').value !== 'DNI' ? 'document-type' : 'document';
+    if (!invalid && ($('certificate').value !== expected.certificate || $('document').value !== expected.document || $('document-type').value !== 'DNI')) {
+      invalid = $('certificate').value !== expected.certificate ? 'certificate' : ($('document-type').value !== 'DNI' ? 'document-type' : 'document');
       message = 'No se encontraron resultados para los datos ingresados.';
     }
     if (invalid) {
@@ -55,7 +56,7 @@
     hideResults();
     for (const id of Object.keys(expected)) $(id).value = '';
     $('document-type').value = 'DNI';
-    $('document').focus();
+    $('certificate').focus();
   });
   document.querySelectorAll('[data-home]').forEach(link => link.addEventListener('click', event => {
     if (isViewerWindow) return;

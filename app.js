@@ -30,7 +30,6 @@
     $('viewer-screen').hidden = !viewing;
     document.title = 'Ministerio de Trabajo - Certificado Único Laboral';
     if (viewing) showPage(1);
-    else if (location.hash === '#certificado') history.replaceState(null, '', location.pathname + location.search);
   }
   form.addEventListener('submit', event => {
     event.preventDefault();
